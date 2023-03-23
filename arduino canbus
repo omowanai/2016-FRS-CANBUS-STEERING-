@@ -2,7 +2,7 @@
 #include <SPI.h>
 #include <mcp_can.h>
 
-MCP_CAN CAN(17); // Initialize MCP2515 CANbus module on SPI pin 10
+MCP_CAN CAN(17); // Initialize MCP2515 CANbus module on SPI pin 17
 
 void setup() {
   Serial.begin(9600);
