@@ -1,0 +1,57 @@
+//OMOWANAI MIT//
+#include <SPI.h>
+#include <mcp_can.h>
+
+MCP_CAN CAN(17); // Initialize MCP2515 CANbus module on SPI pin 10
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial) {} // Wait for serial connection
+  if (CAN_OK == CAN.begin(CAN_500KBPS)) { // Initialize CANbus communication at 500 kbps
+    Serial.println("CANbus Initialized!");
+  } else {
+    Serial.println("CANbus Initialization Failed :(");
+    while (1);
+  }
+}
+
+void loop() {
+  // Broadcast a list of CANbus messages with different message IDs and data
+  byte data1[8] = {0x00, 0x9A, 0x23, 0x43, 0x00, 0x00, 0x09, 0x21};
+  CAN.sendMsgBuf(0x140, 0, 8, data1);
+  Serial.print("ID: 0x140  Data: ");
+  for (int i = 0; i < 8; i++) {
+    Serial.print(data1[i], HEX); // Print each byte of the message data in hexadecimal format
+    Serial.print(" ");
+  }
+  Serial.println();
+
+  byte data2[8] = {0x84, 0x26, 0xA3, 0x27, 0x00, 0x80, 0x2F, 0x00};
+  CAN.sendMsgBuf(0x141, 0, 8, data2);
+  Serial.print("ID: 0x141  Data: ");
+  for (int i = 0; i < 8; i++) {
+    Serial.print(data2[i], HEX); // Print each byte of the message data in hexadecimal format
+    Serial.print(" ");
+  }
+  Serial.println();
+
+  byte data3[8] = {0x84, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  CAN.sendMsgBuf(0x142, 0, 8, data3);
+  Serial.print("ID: 0x142  Data: ");
+  for (int i = 0; i < 8; i++) {
+    Serial.print(data3[i], HEX); // Print each byte of the message data in hexadecimal format
+    Serial.print(" ");
+  }
+  Serial.println();
+    byte data4[8] = {0x00, 0x2B, 0x00, 0x46, 0x00, 0x00, 0x00, 0xD9};
+  CAN.sendMsgBuf(0x18, 0, 8, data4);
+  Serial.print("ID: 0x18  Data: ");
+  for (int i = 0; i < 8; i++) {
+    Serial.print(data4[i], HEX); // Print each byte of the message data in hexadecimal format
+    Serial.print(" ");
+  }
+  Serial.println();
+
+  // Delay for 10 ms before sending the next batch of messages
+  delay(10);
+}
